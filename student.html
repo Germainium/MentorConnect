@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Dashboard - Career Mentorship</title>
+<title>Student Dashboard - MentorConnect</title>
 <style>
   /* Basic Reset */
   * {
@@ -520,15 +520,7 @@
     text-decoration: none;
   }
 
-  /* Messages Section */
-  .messages-container {
-    display: flex;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    height: 500px;
-  }
+ 
 
   .contacts-list {
     width: 300px;
@@ -588,38 +580,8 @@
     align-items: center;
   }
 
-  .chat-messages {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
 
-  .message {
-    max-width: 70%;
-    padding: 10px 15px;
-    border-radius: 10px;
-    font-size: 14px;
-  }
-
-  .message.sent {
-    align-self: flex-end;
-    background-color: #3498db;
-    color: white;
-  }
-
-  .message.received {
-    align-self: flex-start;
-    background-color: #ecf0f1;
-  }
-
-  .chat-input {
-    display: flex;
-    padding: 15px;
-    border-top: 1px solid #eee;
-  }
+  
 
   .chat-input input {
     flex: 1;
@@ -821,10 +783,6 @@
       margin-left: 0;
     }
 
-    .messages-container {
-      flex-direction: column;
-      height: auto;
-    }
 
     .contacts-list {
       width: 100%;
@@ -875,9 +833,7 @@
       <div class="menu-item" data-section="resources">
         <span class="menu-icon">📝</span> Learning Resources
       </div>
-      <div class="menu-item" data-section="messages">
-        <span class="menu-icon">💬</span> Messages
-      </div>
+   
     </div>
   </div>
 
@@ -898,7 +854,7 @@
         <div class="stat-card">
           <div class="stat-title">Completed Sessions</div>
           <div class="stat-value">8</div>
-          <div class="stat-description">Career mentorship sessions</div>
+          <div class="stat-description">MentorConnect sessions</div>
         </div>
         <div class="stat-card">
           <div class="stat-title">Upcoming Sessions</div>
@@ -1200,7 +1156,7 @@
         </div>
         <div class="form-group">
           <label for="phone">Phone</label>
-          <input type="tel" id="phone" value="(555) 123-4567">
+          <input type="tel" id="phone" value="(+254) 123-45678">
         </div>
         <div class="form-group">
           <label for="career-goals">Career Goals</label>
@@ -1405,81 +1361,7 @@
       </div>
     </div>
 
-    <!-- Messages Section -->
-    <div id="messages-section" class="content-section">
-      <h2 class="section-title">Messages</h2>
-      
-      <div class="messages-container">
-        <div class="contacts-list">
-          <div class="contact-item active">
-            <div class="contact-avatar">JS</div>
-            <div class="contact-info">
-              <h4>John Smith</h4>
-              <p>Sure, let's discuss that in our session</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-avatar">ML</div>
-            <div class="contact-info">
-              <h4>Mary Lee</h4>
-              <p>I've shared some resources for you</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-avatar">RJ</div>
-            <div class="contact-info">
-              <h4>Robert Johnson</h4>
-              <p>Looking forward to our next session</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-avatar">AD</div>
-            <div class="contact-info">
-              <h4>Amy Davis</h4>
-              <p>Your portfolio is coming along nicely</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="chat-container">
-          <div class="chat-header">
-            <div class="contact-avatar">JS</div>
-            <div class="contact-info">
-              <h4>John Smith</h4>
-              <p>Software Development Mentor</p>
-            </div>
-          </div>
-          
-          <div class="chat-messages">
-            <div class="message received">
-              Hi Sarah, how's your JavaScript project coming along?
-            </div>
-            <div class="message sent">
-              Hi John! I'm making progress, but I'm stuck on the array methods.
-            </div>
-            <div class="message received">
-              Let's go through them in our session. Which ones are giving you trouble?
-            </div>
-            <div class="message sent">
-              Mainly map() and filter(). I understand the concept but struggle with implementing them.
-            </div>
-            <div class="message received">
-              Sure, let's discuss that in our session. I'll prepare some examples to help you understand.
-            </div>
-            <div class="message sent">
-              That would be great! Thank you.
-            </div>
-          </div>
-          
-          <div class="chat-input">
-            <input type="text" placeholder="Type your message...">
-            <button>Send</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+   
 
 <!-- Booking Modal -->
 <div id="bookingModal" class="modal">
@@ -1750,72 +1632,6 @@
       timeSlots.appendChild(timeSlot);
     });
   }
-
-  // Contact List Selection
-  const contactItems = document.querySelectorAll('.contact-item');
-  
-  contactItems.forEach(item => {
-    item.addEventListener('click', function() {
-      contactItems.forEach(contact => contact.classList.remove('active'));
-      this.classList.add('active');
-      
-      // Here you would normally load the chat for the selected contact
-      // For this demo, we'll just update the header
-      const avatar = this.querySelector('.contact-avatar').textContent;
-      const name = this.querySelector('h4').textContent;
-      
-      document.querySelector('.chat-header .contact-avatar').textContent = avatar;
-      document.querySelector('.chat-header h4').textContent = name;
-    });
-  });
-
-  // Send Message
-  const sendBtn = document.querySelector('.chat-input button');
-  const messageInput = document.querySelector('.chat-input input');
-  const chatMessages = document.querySelector('.chat-messages');
-  
-  sendBtn.addEventListener('click', sendMessage);
-  messageInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
-  });
-  
-  function sendMessage() {
-    const message = messageInput.value.trim();
-    if (message) {
-      const messageElement = document.createElement('div');
-      messageElement.className = 'message sent';
-      messageElement.textContent = message;
-      chatMessages.appendChild(messageElement);
-      
-      messageInput.value = '';
-      
-      // Auto-scroll to bottom
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      
-      // Simulate a response after a delay
-      setTimeout(() => {
-        const responseElement = document.createElement('div');
-        responseElement.className = 'message received';
-        responseElement.textContent = "I've received your message. I'll get back to you soon.";
-        chatMessages.appendChild(responseElement);
-        
-        // Auto-scroll to bottom
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }, 1000);
-    }
-  }
-
-  // Close modal when clicking outside
-  window.addEventListener('click', function(event) {
-    if (event.target === bookingModal) {
-      bookingModal.style.display = 'none';
-    }
-    if (event.target === feedbackModal) {
-      feedbackModal.style.display = 'none';
-    }
-  });
 
   // Cancel Session
   const cancelBtns = document.querySelectorAll('.cancel-btn');
