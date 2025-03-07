@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - MentorConnect</title>
+<style>
+  /* Basic Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    text-decoration: none;
+    color: #3498db;
+    transition: color 0.3s;
+  }
+
+  a:hover {
+    color: #2980b9;
+  }
+
+  /* Header */
+  header {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .logo-text {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .back-link {
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .back-link:hover {
+    color: #3498db;
+  }
+
+  .back-icon {
+    margin-right: 5px;
+  }
+
+  /* Main Content */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .register-container {
+    max-width: 900px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .register-header {
+    text-align: center;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+  }
+
+  .register-header h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .register-header p {
+    color: #777;
+  }
+
+  .register-tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+  }
+
+  .register-tab {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+
+  .register-tab.active {
+    background-color: #3498db;
+    color: white;
+  }
+
+  .register-tab:hover:not(.active) {
+    background-color: #f5f5f5;
+  }
+
+  .register-form-container {
+    padding: 30px;
+  }
+
+  .form-section {
+    display: none;
+  }
+
+  .form-section.active {
+    display: block;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+  }
+
+  .form-group textarea {
+    height: 120px;
+    resize: vertical;
+  }
+
+  .form-group .error-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: none;
+  }
+
+  .form-group.error input,
+  .form-group.error textarea,
+  .form-group.error select {
+    border-color: #e74c3c;
+  }
+
+  .form-group.error .error-message {
+    display: block;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 20px;
+  }
+
+  .form-row .form-group {
+    flex: 1;
+  }
+
+  .register-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+
+  .register-button:hover {
+    background-color: #2980b9;
+  }
+
+  .login-link {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* Footer */
+  footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+</style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-container">
+        <div class="logo">
+          <div class="logo-icon">MC</div>
+          <div class="logo-text">MentorConnect</div>
+        </div>
+        <a href="index.html" class="back-link">
+          <span class="back-icon">←</span> Back to Home
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="register-container">
+      <div class="register-header">
+        <h1>Create an Account</h1>
+        <p>Join our community and start your mentorship journey</p>
+      </div>
+      
+      <div class="register-tabs">
+        <div class="register-tab active" data-tab="student">Student</div>
+        <div class="register-tab" data-tab="mentor">Mentor</div>
+      </div>
+      
+      <div class="register-form-container">
+        <!-- Student Registration Form -->
+        <!-- FR: Student Registration - Input: Registration form (Name, Email, etc.) -->
+        <!-- NFR: Security - The system ensures user data protection through encryption and authentication -->
+        <form id="studentForm" class="form-section active" data-role="student">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="student-first-name">First Name</label>
+              <input type="text" id="student-first-name" required>
+              <div class="error-message">Please enter your first name</div>
+            </div>
+            <div class="form-group">
+              <label for="student-last-name">Last Name</label>
+              <input type="text" id="student-last-name" required>
+              <div class="error-message">Please enter your last name</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="student-email">Email Address</label>
+            <input type="email" id="student-email" required>
+            <div class="error-message">Please enter a valid email address</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="student-phone">Phone Number</label>
+            <input type="tel" id="student-phone" placeholder="+254 7XX XXX XXX" required>
+            <div class="error-message">Please enter a valid phone number starting with +254</div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="student-password">Password</label>
+              <input type="password" id="student-password" required>
+              <div class="error-message">Password must be at least 8 characters</div>
+            </div>
+            <div class="form-group">
+              <label for="student-confirm-password">Confirm Password</label>
+              <input type="password" id="student-confirm-password" required>
+              <div class="error-message">Passwords do not match</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="student-career-goals">Career Goals</label>
+            <textarea id="student-career-goals" placeholder="Describe your career aspirations and what you hope to achieve"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="student-skills">Current Skills</label>
+            <textarea id="student-skills" placeholder="List your current skills and areas of expertise"></textarea>
+          </div>
+          
+          <button type="submit" class="register-button">Create Student Account</button>
+          
+          <div class="login-link">
+            Already have an account? <a href="login.html">Log in</a>
+          </div>
+        </form>
+        
+        <!-- Mentor Registration Form -->
+        <!-- FR: Mentor Registration - Input: Registration form (Name, Expertise, Email, etc.) -->
+        <!-- NFR: Security - The system ensures user data protection through encryption and authentication -->
+        <form id="mentorForm" class="form-section" data-role="mentor">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mentor-first-name">First Name</label>
+              <input type="text" id="mentor-first-name" required>
+              <div class="error-message">Please enter your first name</div>
+            </div>
+            <div class="form-group">
+              <label for="mentor-last-name">Last Name</label>
+              <input type="text" id="mentor-last-name" required>
+              <div class="error-message">Please enter your last name</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="mentor-email">Email Address</label>
+            <input type="email" id="mentor-email" required>
+            <div class="error-message">Please enter a valid email address</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="mentor-phone">Phone Number</label>
+            <input type="tel" id="mentor-phone" placeholder="+254 7XX XXX XXX" required>
+            <div class="error-message">Please enter a valid phone number starting with +254</div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mentor-password">Password</label>
+              <input type="password" id="mentor-password" required>
+              <div class="error-message">Password must be at least 8 characters</div>
+            </div>
+            <div class="form-group">
+              <label for="mentor-confirm-password">Confirm Password</label>
+              <input type="password" id="mentor-confirm-password" required>
+              <div class="error-message">Passwords do not match</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="mentor-expertise">Areas of Expertise</label>
+            <textarea id="mentor-expertise" placeholder="List your areas of expertise and specialization" required></textarea>
+            <div class="error-message">Please enter your areas of expertise</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="mentor-experience">Years of Experience</label>
+            <input type="number" id="mentor-experience" min="0" required>
+            <div class="error-message">Please enter your years of experience</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="mentor-availability">Availability</label>
+            <select id="mentor-availability" required>
+              <option value="">Select your availability</option>
+              <option value="weekdays">Weekdays</option>
+              <option value="evenings">Evenings</option>
+              <option value="weekends">Weekends</option>
+              <option value="flexible">Flexible</option>
+            </select>
+            <div class="error-message">Please select your availability</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="mentor-bio">Professional Bio</label>
+            <textarea id="mentor-bio" placeholder="Tell us about your professional background and why you want to be a mentor"></textarea>
+          </div>
+          
+          <button type="submit" class="register-button">Create Mentor Account</button>
+          
+          <div class="login-link">
+            Already have an account? <a href="login.html">Log in</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 MentorConnect. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching functionality
+    const tabs = document.querySelectorAll('.register-tab');
+    const forms = document.querySelectorAll('.form-section');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Update active tab
+        tabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Show corresponding form
+        const role = this.getAttribute('data-tab');
+        forms.forEach(form => {
+          form.classList.remove('active');
+          if (form.getAttribute('data-role') === role) {
+            form.classList.add('active');
+          }
+        });
+      });
+    });
+    
+    // Form validation
+    const studentForm = document.getElementById('studentForm');
+    const mentorForm = document.getElementById('mentorForm');
+    
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // Phone validation regex for Kenya (+254)
+    const phoneRegex = /^\+254\s?\d{9}$/;
+    
+    // Student form validation
+    studentForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let isValid = true;
+      
+      // Validate first name
+      const firstName = document.getElementById('student-first-name');
+      if (!firstName.value.trim()) {
+        firstName.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        firstName.parentElement.classList.remove('error');
+      }
+      
+      // Validate last name
+      const lastName = document.getElementById('student-last-name');
+      if (!lastName.value.trim()) {
+        lastName.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        lastName.parentElement.classList.remove('error');
+      }
+      
+      // Validate email
+      const email = document.getElementById('student-email');
+      if (!emailRegex.test(email.value)) {
+        email.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        email.parentElement.classList.remove('error');
+      }
+      
+      // Validate phone
+      const phone = document.getElementById('student-phone');
+      if (!phoneRegex.test(phone.value)) {
+        phone.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        phone.parentElement.classList.remove('error');
+      }
+      
+      // Validate password
+      const password = document.getElementById('student-password');
+      if (password.value.length < 8) {
+        password.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        password.parentElement.classList.remove('error');
+      }
+      
+      // Validate confirm password
+      const confirmPassword = document.getElementById('student-confirm-password');
+      if (confirmPassword.value !== password.value) {
+        confirmPassword.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        confirmPassword.parentElement.classList.remove('error');
+      }
+      
+      // If form is valid, submit
+      if (isValid) {
+        // In a real application, this would send data to the server
+        // For this demo, we'll simulate success and redirect
+        alert('Student registration successful! You will be redirected to the login page.');
+        window.location.href = 'login.html';
+      }
+    });
+    
+    // Mentor form validation
+    mentorForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let isValid = true;
+      
+      // Validate first name
+      const firstName = document.getElementById('mentor-first-name');
+      if (!firstName.value.trim()) {
+        firstName.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        firstName.parentElement.classList.remove('error');
+      }
+      
+      // Validate last name
+      const lastName = document.getElementById('mentor-last-name');
+      if (!lastName.value.trim()) {
+        lastName.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        lastName.parentElement.classList.remove('error');
+      }
+      
+      // Validate email
+      const email = document.getElementById('mentor-email');
+      if (!emailRegex.test(email.value)) {
+        email.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        email.parentElement.classList.remove('error');
+      }
+      
+      // Validate phone
+      const phone = document.getElementById('mentor-phone');
+      if (!phoneRegex.test(phone.value)) {
+        phone.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        phone.parentElement.classList.remove('error');
+      }
+      
+      // Validate password
+      const password = document.getElementById('mentor-password');
+      if (password.value.length < 8) {
+        password.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        password.parentElement.classList.remove('error');
+      }
+      
+      // Validate confirm password
+      const confirmPassword = document.getElementById('mentor-confirm-password');
+      if (confirmPassword.value !== password.value) {
+        confirmPassword.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        confirmPassword.parentElement.classList.remove('error');
+      }
+      
+      // Validate expertise
+      const expertise = document.getElementById('mentor-expertise');
+      if (!expertise.value.trim()) {
+        expertise.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        expertise.parentElement.classList.remove('error');
+      }
+      
+      // Validate experience
+      const experience = document.getElementById('mentor-experience');
+      if (!experience.value || experience.value < 0) {
+        experience.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        experience.parentElement.classList.remove('error');
+      }
+      
+      // Validate availability
+      const availability = document.getElementById('mentor-availability');
+      if (!availability.value) {
+        availability.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        availability.parentElement.classList.remove('error');
+      }
+      
+      // If form is valid, submit
+      if (isValid) {
+        // In a real application, this would send data to the server
+        // For this demo, we'll simulate success and redirect
+        alert('Mentor registration successful! Your application will be reviewed by an admin.');
+        window.location.href = 'login.html';
+      }
+    });
+    
+    // Clear error on input
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+      input.addEventListener('input', function() {
+        this.parentElement.classList.remove('error');
+      });
+    });
+  </script>
+</body>
+</html>
