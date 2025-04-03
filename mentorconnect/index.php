@@ -1,0 +1,788 @@
+<?php
+// Initialize the session
+session_start();
+
+// Check if user is already logged in
+$logged_in = isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true;
+$user_type = $logged_in ? $_SESSION["user_type"] : "";
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MentorConnect Platform</title>
+<style>
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  
+  header {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .logo-text {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+  }
+
+  .nav-links li {
+    margin-left: 30px;
+  }
+
+  .nav-links a {
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: #3498db;
+  }
+
+  .nav-links .cta-button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .nav-links .cta-button:hover {
+    background-color: #2980b9;
+    color: white;
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  
+  .hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-align: center;
+    margin-top: 80px;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .primary-button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    display: inline-block;
+  }
+
+  .primary-button:hover {
+    background-color: #2980b9;
+  }
+
+  .secondary-button {
+    background-color: transparent;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 2px solid white;
+    transition: background-color 0.3s;
+    display: inline-block;
+  }
+
+  .secondary-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  
+  .about {
+    padding: 80px 0;
+    background-color: white;
+  }
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .section-title h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  .section-title p {
+    color: #777;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .about-content {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+
+  .about-image {
+    flex: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .about-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .about-text {
+    flex: 1;
+  }
+
+  .about-text h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .about-text p {
+    margin-bottom: 20px;
+    color: #555;
+  }
+
+  
+  .services {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+  }
+
+  .service-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .service-icon {
+    height: 150px;
+    background-color: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    color: white;
+  }
+
+  .service-content {
+    padding: 30px;
+  }
+
+  .service-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .service-content p {
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .service-link {
+    color: #3498db;
+    font-weight: bold;
+    display: inline-block;
+    transition: color 0.3s;
+  }
+
+  .service-link:hover {
+    color: #2980b9;
+  }
+
+  /* Why Choose Us Section */
+  .why-us {
+    padding: 80px 0;
+    background-color: white;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+  }
+
+  .feature-card {
+    text-align: center;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    transition: transform 0.3s;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .feature-icon {
+    font-size: 40px;
+    color: #3498db;
+    margin-bottom: 20px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .feature-card p {
+    color: #666;
+  }
+
+  /* Testimonials Section */
+  .testimonials {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+  }
+
+  .testimonial-slider {
+    max-width: 800px;
+    margin: 50px auto 0;
+    position: relative;
+  }
+
+  .testimonial-slide {
+    text-align: center;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .testimonial-content {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #3498db;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 15px;
+  }
+
+  .author-info h4 {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .author-info p {
+    color: #777;
+    font-size: 0.9rem;
+  }
+
+
+  .cta {
+    padding: 80px 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+    color: white;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  .cta p {
+    max-width: 600px;
+    margin: 0 auto 30px;
+    font-size: 1.1rem;
+  }
+
+  
+  footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 60px 0 20px;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .footer-column h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: #3498db;
+  }
+
+  .footer-links {
+    list-style: none;
+  }
+
+  .footer-links li {
+    margin-bottom: 10px;
+  }
+
+  .footer-links a {
+    color: #ecf0f1;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover {
+    color: #3498db;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #34495e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: background-color 0.3s;
+  }
+
+  .social-icon:hover {
+    background-color: #3498db;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #34495e;
+    color: #bdc3c7;
+    font-size: 0.9rem;
+  }
+
+  
+  @media (max-width: 992px) {
+    .about-content {
+      flex-direction: column;
+    }
+
+    .about-image, .about-text {
+      flex: none;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      flex-direction: column;
+      padding: 20px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-links li {
+      margin: 10px 0;
+    }
+
+    .mobile-menu-btn {
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero-buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .primary-button, .secondary-button {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+ 
+  <header>
+    <div class="container">
+      <div class="nav-container">
+        <div class="logo">
+          <div class="logo-icon">MC</div>
+          <div class="logo-text">MentorConnect</div>
+        </div>
+        <button class="mobile-menu-btn">☰</button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <?php if($logged_in): ?>
+            <li>
+              <a href="<?php echo $user_type; ?>.php" class="cta-button">Dashboard</a>
+            </li>
+          <?php else: ?>
+            <li><a href="login.php" class="cta-button">Login</a></li>
+          <?php endif; ?>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Accelerate Your Career Growth</h1>
+      <p>Connect with experienced mentors who can guide you through your professional journey and help you achieve your career goals.</p>
+      <div class="hero-buttons">
+        <?php if($logged_in): ?>
+          <a href="<?php echo $user_type; ?>.php" class="primary-button">Go to Dashboard</a>
+        <?php else: ?>
+          <a href="login.php" class="primary-button">Get Started</a>
+        <?php endif; ?>
+        <a href="#services" class="secondary-button">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+ 
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>About Us</h2>
+        <p>Empowering professionals through personalized mentorship</p>
+      </div>
+      <div class="about-content">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mentorship Session">
+        </div>
+        <div class="about-text">
+          <h3>Our Mission</h3>
+          <p>At MentorConnect, we believe that everyone deserves access to quality guidance and support throughout their professional journey. Our platform connects aspiring professionals with experienced mentors who have walked the path before.</p>
+          <p>Founded in 2025, we want to help thousands of individuals navigate their career paths, develop new skills, and achieve their professional goals through personalized mentorship.</p>
+          <a href="#" class="primary-button">Learn More About Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Services</h2>
+        <p>Comprehensive mentorship solutions for your career growth</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">👨‍🏫</div>
+          <div class="service-content">
+            <h3>One-on-One Mentorship</h3>
+            <p>Connect with experienced professionals for personalized guidance tailored to your specific career goals and challenges.</p>
+            <a href="#" class="service-link">Learn More →</a>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📚</div>
+          <div class="service-content">
+            <h3>Skill Development</h3>
+            <p>Access resources and guidance to develop the technical and soft skills needed to excel in your chosen field.</p>
+            <a href="#" class="service-link">Learn More →</a>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📈</div>
+          <div class="service-content">
+            <h3>Career Planning</h3>
+            <p>Get expert help in mapping out your career path, setting achievable goals, and creating actionable plans to reach them.</p>
+            <a href="#" class="service-link">Learn More →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="why-us" id="why-us">
+    <div class="container">
+      <div class="section-title">
+        <h2>Why Choose Us</h2>
+        <p>What sets our mentorship platform apart</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🌟</div>
+          <h3>Verified Mentors</h3>
+          <p>All our mentors go through a rigorous verification process to ensure quality guidance.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>Flexible Scheduling</h3>
+          <p>Book sessions at times that work for you, with easy rescheduling options.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💼</div>
+          <h3>Industry Diversity</h3>
+          <p>Access mentors from various industries and specializations to match your needs.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Seamless Platform</h3>
+          <p>Our user-friendly platform makes it easy to connect, communicate, and grow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-title">
+        <h2>Success Stories</h2>
+        <p>Hear from professionals who have transformed their careers with our platform</p>
+      </div>
+      <div class="testimonial-slider">
+        <div class="testimonial-slide">
+          <p class="testimonial-content">"Working with my mentor through this platform completely changed my career trajectory. The personalized guidance helped me transition from a junior developer to a team lead in just 18 months."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MJ</div>
+            <div class="author-info">
+              <h4>Michael Johnson</h4>
+              <p>Software Developer</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to Accelerate Your Career?</h2>
+      <p>Join thousands of professionals who are achieving their career goals with personalized mentorship.</p>
+      <?php if($logged_in): ?>
+        <a href="<?php echo $user_type; ?>.php" class="primary-button">Go to Dashboard</a>
+      <?php else: ?>
+        <a href="register.php" class="primary-button">Get Started Today</a>
+      <?php endif; ?>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <div class="logo">
+            <div class="logo-icon">MC</div>
+            <div class="logo-text">MentorConnect</div>
+          </div>
+          <p style="margin-top: 20px; color: #bdc3c7;">Empowering professionals through personalized mentorship since 2025.</p>
+          <div class="social-links">
+            <a href="#" class="social-icon">f</a>
+            <a href="#" class="social-icon">t</a>
+            <a href="#" class="social-icon">in</a>
+            <a href="#" class="social-icon">ig</a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <?php if($logged_in): ?>
+              <li><a href="<?php echo $user_type; ?>.php">Dashboard</a></li>
+            <?php else: ?>
+              <li><a href="login.php">Login</a></li>
+            <?php endif; ?>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul class="footer-links">
+            <li>Email: <a href="mailto:mentorconnecter@gmail.com">mentorconnecter@gmail.com</a></li>
+            <li>Phone: (+254) 746 967155</li>
+            <li>Phone: (+254) 796 945810</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 MentorConnect Platform. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.getElementById('navLinks');
+    
+    mobileMenuBtn.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking a link
+    const navItems = document.querySelectorAll('.nav-links a');
+    navItems.forEach(item => {
+      item.addEventListener('click', function() {
+        if (navLinks.classList.contains('active')) {
+          navLinks.classList.remove('active');
+        }
+      });
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        if (this.getAttribute('href') !== '#') {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
